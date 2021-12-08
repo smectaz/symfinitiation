@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Blog!{% endblock %}
+
+{% block body %}
+          <div>
+              {% if form_article is defined %}
+                <div class="bd-example" style="background-color:lightgray; padding: 10px">
+                  <h2 class="h2">Nouveau bulletin</h2>
+                  {{ form(form_article) }}
+                </div>
+               {% endif %}
+            {% if listeArticles is empty %}
+                  <div class="bd-example" style="background-color:lightpink; padding: 20px">
+                    <p class="lead">Aucun bulletin ne correspond à votre requête.</p>
+                  </div>
+            {% else %}
+                {% for article in listeArticles %}
+                  <div class="bd-example" style="background-color:lightgray; padding-bottom: 10px">
+                    <p class="h3">{{ article.title }}</p>
+                    <a href="{{ path('category', {'category' : article.category}) }}" ><p class="lead">{{ article.category }}</p></a>
+                    <p>{{ article.content|n12br }}</p>
+                    <a href="{{ path('delete_article', {'articleId' : article.id}) }}" ><button class="btn-danger">Supprimer</button></a>
+                  </div>
+                {% endfor %}
+            {% endif %}
+            
+              {% if articlePages is defined %}
+          <div  class="bd-example" style="background-color:lightgray; text-align: center">
+              <p>Page: {% for i in 1..articlePages %}
+                  <a href="{{ path('page_index', {'pageNumber' : i}) }}"> {{ i }}</a>
+                  {% if i != articlePages %}, {% endif %}
+                  {% endfor %}
+              </p>
+          </div>
+              {% endif %}
+          </div>
+{% endblock %}

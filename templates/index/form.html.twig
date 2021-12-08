@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="bd-cheatsheet container-fluid bg-body" style="margin:auto">
+  <section id="content">
+    <h2 class="sticky-xl-top fw-bold pt-3 pt-xl-5 pb-2 pb-xl-3">Contents</h2>
+    
+    <article class="my-3" id="typography">
+      <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Typography</h3>
+        <a class="d-flex align-items-center" href="/docs/5.0/content/typography/">Documentation</a>
+      </div>
+
+     <div>
+        <div class="bd-example" style="background-color:lightgray; padding: 10px">
+            {{ form(form_article) }}
+        </div>
+
+    </div>
+     
+    </article>
+  </section>
+</div>
+
+{% endblock %}

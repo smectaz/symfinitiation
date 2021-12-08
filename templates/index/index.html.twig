@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="bd-cheatsheet container-fluid bg-body" style="margin:auto">
+  <section id="content">
+    <h2 class="sticky-xl-top fw-bold pt-3 pt-xl-5 pb-2 pb-xl-3">Contents</h2>
+    
+    <article class="my-3" id="typography">
+      <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Typography</h3>
+        <a class="d-flex align-items-center" href="/docs/5.0/content/typography/">Documentation</a>
+       
+      </div>
+      
+      <div>
+       
+          <div class="bd-example" style="background-color:lightgray; padding: 10px">
+            {{ form(form_article) }}
+        </div>
+       {% if listeArticles is empty %}
+       <div class="bd-example" style="background-color:lightgray; padding: 10px">
+            {{ form(form_article) }}
+        </div>
+        <div class="bd-example" style="background-color:lightpink; padding: 20px">
+            <p class="lead">aucun bulletin ne correspond a votre requete</p>
+            </div> 
+              {% endif %} 
+        {% for article in listeArticles %}
+            <div class="bd-example" style="background-color:lightgray">
+		    <h3>{{ article.title }}</h3>
+		    <p>{{ article.content }}</p>
+		    <p>{{ article.category }}</p>
+            <br>
+            <a href="{{ path('delete_article', {'articleId' : article.id}) }}">   <button class="btn-danger" style="margin-bottom: 10px">Supprimer</button></a>
+		    <hr>
+            </div>
+	    {% endfor %}
+     </div>
+    </article>
+  </section>
+</div>
+
+{% endblock %}

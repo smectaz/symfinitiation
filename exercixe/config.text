@@ -1,0 +1,216 @@
+ /**
+     * @Route("/", name="index")
+     */
+    public function index(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'controller_name' => 'IndexController',
+            'title' => 'IndexController',
+        ]);
+    }
+    /**
+     * @Route("/", name="hom")
+     */
+    public function hom(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'controller_name' => 'homeController',
+            'title' => 'homeController',
+        ]);
+    }
+
+    ///**
+    //*@Route("/", name="deviation")
+    //*/
+
+    /* public function deviation(): Response
+    {
+
+    $characterNumber = strlen("deviation");
+
+    return $this->render('index/index.html.twig', [
+    'controller_name' => 'this is a deviation',
+    'title' => $characterNumber,
+    ]);
+    } */
+
+    ///**
+    // * @Route("/home", name="home")
+    // */
+    /*
+    public function home(): Response//affiche les données sql recuperer en array
+    {
+    $listeArticles = '';
+
+    $em = $this->getDoctrine()->getManager();
+    $articleRepository = $em->getRepository(Article::class);
+
+    $listeArticles = $articleRepository->findAll();
+
+    return $this->render('index/home.html.twig',
+    ['listeArticles' => $listeArticles]);
+
+    } */
+    ///**
+    //* @Route("/home", name="home")
+    //*/
+
+    /*   public function home(): Response//permet de selectionner les données que l'on souhaite grace au if
+    {
+    $listeArticles = '';
+
+    $em = $this->getDoctrine()->getManager();
+    $articleRepository = $em->getRepository(Article::class);
+
+    $listeArticles = [];
+    $listeArticlesDraft = $articleRepository->findAll();
+
+    foreach ($listeArticlesDraft as $article) {
+    if ($article->getCategory() != "General") {
+    array_push($listeArticles, $article);
+    }
+    }
+
+    return $this->render('index/home.html.twig',
+    ['listeArticles' => $listeArticles,
+    ]);
+
+    } */
+
+    ///**
+    //* @Route("/home", name="home")
+    //*/
+
+    /*  public function home(): Response//change les données de la table sql et affiche les nouvelles a l'écran
+
+    {
+
+    $em = $this->getDoctrine()->getManager();
+    $articleRepository = $em->getRepository(Article::class);
+
+    $listeArticles = [];
+    $listeArticlesDraft = $articleRepository->findAll();
+
+    foreach ($listeArticlesDraft as $article) {
+    if ($article->getCategory() == "Divers") {
+    $article->setContent("(le contenu de cet article n'est plus pertinent)");
+    $em->persist($article);
+
+    }
+    array_push($listeArticles, $article);
+
+    }
+    $em->flush();
+
+    return $this->render('index/home.html.twig',
+    ['listeArticles' => $listeArticles,
+    ]);
+
+    } */
+
+    ///**
+    //* @Route("/home", name="home")
+    //*/
+
+    /* public function home(): Response//même chose mais avec le titre et une boucle
+    {
+
+    $em = $this->getDoctrine()->getManager();
+    $articleRepository = $em->getRepository(Article::class);
+
+    $listeArticles = [];
+    $listeArticlesDraft = $articleRepository->findAll();
+
+    $i = 0;
+    foreach ($listeArticlesDraft as $article) {
+    if ($article->getCategory() == "Urgent") {
+    $i++;
+    $article->setTitle("('Urgent' . $i)");
+    array_push($listeArticles, $article);
+    $em->persist($article);
+
+    }
+
+    }
+    $em->flush();
+
+    return $this->render('index/home.html.twig',
+    ['listeArticles' => $listeArticles,
+    ]);
+
+    } */
+
+    /**
+     * @Route("/home", name="home")
+     */
+
+    public function home(): Response//utilisation de articleRepository
+
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $articleRepository = $em->getRepository(Article::class);
+
+        $listeArticles = [];
+        $listeArticles = $articleRepository->findByCategory('Urgent');
+
+        return $this->render('index/home.html.twig',
+            ['listeArticles' => $listeArticles,
+            ]);
+
+    }
+    //ucfirst(strtolower($foo))//permet d'éviter la casse avec les majuscule et les miniscule mettre la variable dans les parenthéses
+
+    /*  Consigne:
+
+    Modifier la page deviation (/deviation/{article}/{prenom}), de manière à ce que:
+
+    La page affiche un article dont le numéro d'id correspond à la valeur entrée dans l'URL dans le segment {article}
+    De même, la page, avant de publier le contenu de l'article, donne le bonjour au client selon le {prenom} qui a été indiqué dans le segment de l'URL prévu à cet effet. Si ce segment est laissé vide, la phrase de bonjour ne doit pas apparaître. Utiliser le {% if %} de twig pour permettre cet effet.
+    Enfin, si le numero d'id de l'article est invalide, la page ne doit afficher ni le bonjour, ni le contenu de l'article mais un message d'avertissement prévenant le visiteur que l'article recherché n'existe pas.
+
+    Créer un routage conditionnel
+    Créer une nouvelle requête DQL nommée findById
+    Utiliser les fonctions de twig telles que {% if article is * %} */
+
+/**
+ * @Route("/deviation/{articleId}/{prenom}", name="deviation")
+ */
+
+    public function deviation(Request $request, $articleId, $prenom = null): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $articleRepository = $em->getRepository(article::class);
+
+        $article = $articleRepository->findById($articleId);
+
+        if (!empty($article)) { //vérifie que le tableau n'est pas vide
+
+            $article = $article[0]; //récupere la première et seule valeur du tableau
+
+        } else {
+            $article = null;
+        }
+
+        return $this->render('index/deviation.html.twig',
+            ['article' => $article,
+                'prenom' => $prenom,
+            ]);
+
+    }
+
+   /**
+     *  @Route("/category/{category}", name="category")
+     */
+
+    public function category(Request $request, $category): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $articleRepository = $em->getRepository(article::class);
+
+        $listeArticles = $articleRepository->findByCategory($category);
+
+        return $this->render('index/index.html.twig',
+            ['listeArticles' => $listeArticles,
+            ]);
+    }
