@@ -10,8 +10,7 @@ class ArticleFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // $product = new Product();
-        // $manager->persist($product);
+       
 
         $mesArticles = [
             ["title" => "titre 1", "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor malesuada ante, et molestie massa pellentesque eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.", "category" => "General"],
